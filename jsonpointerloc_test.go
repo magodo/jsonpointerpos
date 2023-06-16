@@ -1,4 +1,4 @@
-package jsonpointerloc
+package jsonpointerpos
 
 import (
 	"encoding/json"
@@ -223,12 +223,12 @@ func TestOffsetValue(t *testing.T) {
 	}
 }
 
-func TestJSONPointerOffset(t *testing.T) {
+func TestJSONPointerPosition(t *testing.T) {
 	cases := []struct {
 		name   string
 		input  string
 		ptrs   []string
-		expect map[string]JSONPointerLoc
+		expect map[string]JSONPointerPos
 	}{
 		{
 			name:   "empty object",
@@ -244,7 +244,7 @@ func TestJSONPointerOffset(t *testing.T) {
 			name:   "empty object with non-exist ptr",
 			input:  "{}",
 			ptrs:   []string{"/foo"},
-			expect: map[string]JSONPointerLoc{},
+			expect: map[string]JSONPointerPos{},
 		},
 		{
 			name: "simple object",
@@ -257,17 +257,17 @@ func TestJSONPointerOffset(t *testing.T) {
   }
 }`,
 			ptrs: []string{"/b", "/c/x", "/non-exist"},
-			expect: map[string]JSONPointerLoc{
+			expect: map[string]JSONPointerPos{
 				"/b": {
 					Ptr: *newJSONPtr([]string{"b"}),
-					Loc: Location{
+					Pos: Position{
 						Line:   4,
 						Column: 8,
 					},
 				},
 				"/c/x": {
 					Ptr: *newJSONPtr([]string{"c", "x"}),
-					Loc: Location{
+					Pos: Position{
 						Line:   6,
 						Column: 10,
 					},
@@ -282,10 +282,10 @@ func TestJSONPointerOffset(t *testing.T) {
   [3, 4]
 ]`,
 			ptrs: []string{"/0/1"},
-			expect: map[string]JSONPointerLoc{
+			expect: map[string]JSONPointerPos{
 				"/0/1": {
 					Ptr: *newJSONPtr([]string{"0", "1"}),
-					Loc: Location{
+					Pos: Position{
 						Line:   3,
 						Column: 7,
 					},
@@ -305,10 +305,10 @@ func TestJSONPointerOffset(t *testing.T) {
   [3, 4]
 ]`,
 			ptrs: []string{"/0/1/foo/0"},
-			expect: map[string]JSONPointerLoc{
+			expect: map[string]JSONPointerPos{
 				"/0/1/foo/0": {
 					Ptr: *newJSONPtr([]string{"0", "1", "foo", "0"}),
-					Loc: Location{
+					Pos: Position{
 						Line:   6,
 						Column: 15,
 					},
@@ -325,7 +325,7 @@ func TestJSONPointerOffset(t *testing.T) {
 				require.NoError(t, err)
 				ptrs = append(ptrs, ptr)
 			}
-			out, err := JSONPointerOffset(tt.input, ptrs)
+			out, err := JSONPointerPosition(tt.input, ptrs)
 			require.NoError(t, err)
 			require.Equal(t, tt.expect, out)
 		})

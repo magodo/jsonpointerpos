@@ -1,4 +1,4 @@
-module github.com/magodo/jsonpointerloc
+module github.com/magodo/jsonpointerpos
 
 go 1.20
 

@@ -1,4 +1,4 @@
-package jsonpointerloc
+package jsonpointerpos
 
 import (
 	"encoding/json"
@@ -11,12 +11,12 @@ import (
 	"github.com/go-openapi/jsonpointer"
 )
 
-type JSONPointerLoc struct {
+type JSONPointerPos struct {
 	Ptr jsonpointer.Pointer
-	Loc Location
+	Pos Position
 }
 
-type Location struct {
+type Position struct {
 	Line   int
 	Column int
 }
@@ -97,7 +97,7 @@ func buildTokenTree(ptrs []jsonpointer.Pointer) tokenTree {
 	return root
 }
 
-func JSONPointerOffset(document string, ptrs []jsonpointer.Pointer) (map[string]JSONPointerLoc, error) {
+func JSONPointerPosition(document string, ptrs []jsonpointer.Pointer) (map[string]JSONPointerPos, error) {
 	if len(ptrs) == 0 {
 		return nil, nil
 	}
@@ -137,7 +137,7 @@ func JSONPointerOffset(document string, ptrs []jsonpointer.Pointer) (map[string]
 	var sc scanner.Scanner
 	sc.Init(strings.NewReader(document))
 
-	out := map[string]JSONPointerLoc{}
+	out := map[string]JSONPointerPos{}
 
 	start := 0
 	for _, ov := range ol {
@@ -149,9 +149,9 @@ func JSONPointerOffset(document string, ptrs []jsonpointer.Pointer) (map[string]
 			return nil, err
 		}
 		pos := sc.Pos()
-		out[ptr.String()] = JSONPointerLoc{
+		out[ptr.String()] = JSONPointerPos{
 			Ptr: ptr,
-			Loc: Location{
+			Pos: Position{
 				Line:   pos.Line,
 				Column: pos.Column,
 			},
