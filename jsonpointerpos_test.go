@@ -260,14 +260,14 @@ func TestGetPositions(t *testing.T) {
 			expect: map[string]JSONPointerPosition{
 				"/b": {
 					Ptr: *newJSONPtr([]string{"b"}),
-					Pos: Position{
+					Position: Position{
 						Line:   4,
 						Column: 8,
 					},
 				},
 				"/c/x": {
 					Ptr: *newJSONPtr([]string{"c", "x"}),
-					Pos: Position{
+					Position: Position{
 						Line:   6,
 						Column: 10,
 					},
@@ -285,7 +285,7 @@ func TestGetPositions(t *testing.T) {
 			expect: map[string]JSONPointerPosition{
 				"/0/1": {
 					Ptr: *newJSONPtr([]string{"0", "1"}),
-					Pos: Position{
+					Position: Position{
 						Line:   3,
 						Column: 7,
 					},
@@ -308,7 +308,7 @@ func TestGetPositions(t *testing.T) {
 			expect: map[string]JSONPointerPosition{
 				"/0/1/foo/0": {
 					Ptr: *newJSONPtr([]string{"0", "1", "foo", "0"}),
-					Pos: Position{
+					Position: Position{
 						Line:   6,
 						Column: 15,
 					},

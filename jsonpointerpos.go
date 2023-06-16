@@ -13,7 +13,7 @@ import (
 
 type JSONPointerPosition struct {
 	Ptr jsonpointer.Pointer
-	Pos Position
+	Position
 }
 
 type Position struct {
@@ -151,7 +151,7 @@ func GetPositions(document string, ptrs []jsonpointer.Pointer) (map[string]JSONP
 		pos := sc.Pos()
 		out[ptr.String()] = JSONPointerPosition{
 			Ptr: ptr,
-			Pos: Position{
+			Position: Position{
 				Line:   pos.Line,
 				Column: pos.Column,
 			},
