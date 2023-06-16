@@ -223,12 +223,12 @@ func TestOffsetValue(t *testing.T) {
 	}
 }
 
-func TestJSONPointerPosition(t *testing.T) {
+func TestGetPositions(t *testing.T) {
 	cases := []struct {
 		name   string
 		input  string
 		ptrs   []string
-		expect map[string]JSONPointerPos
+		expect map[string]JSONPointerPosition
 	}{
 		{
 			name:   "empty object",
@@ -244,7 +244,7 @@ func TestJSONPointerPosition(t *testing.T) {
 			name:   "empty object with non-exist ptr",
 			input:  "{}",
 			ptrs:   []string{"/foo"},
-			expect: map[string]JSONPointerPos{},
+			expect: map[string]JSONPointerPosition{},
 		},
 		{
 			name: "simple object",
@@ -257,7 +257,7 @@ func TestJSONPointerPosition(t *testing.T) {
   }
 }`,
 			ptrs: []string{"/b", "/c/x", "/non-exist"},
-			expect: map[string]JSONPointerPos{
+			expect: map[string]JSONPointerPosition{
 				"/b": {
 					Ptr: *newJSONPtr([]string{"b"}),
 					Pos: Position{
@@ -282,7 +282,7 @@ func TestJSONPointerPosition(t *testing.T) {
   [3, 4]
 ]`,
 			ptrs: []string{"/0/1"},
-			expect: map[string]JSONPointerPos{
+			expect: map[string]JSONPointerPosition{
 				"/0/1": {
 					Ptr: *newJSONPtr([]string{"0", "1"}),
 					Pos: Position{
@@ -305,7 +305,7 @@ func TestJSONPointerPosition(t *testing.T) {
   [3, 4]
 ]`,
 			ptrs: []string{"/0/1/foo/0"},
-			expect: map[string]JSONPointerPos{
+			expect: map[string]JSONPointerPosition{
 				"/0/1/foo/0": {
 					Ptr: *newJSONPtr([]string{"0", "1", "foo", "0"}),
 					Pos: Position{
@@ -325,7 +325,7 @@ func TestJSONPointerPosition(t *testing.T) {
 				require.NoError(t, err)
 				ptrs = append(ptrs, ptr)
 			}
-			out, err := JSONPointerPosition(tt.input, ptrs)
+			out, err := GetPositions(tt.input, ptrs)
 			require.NoError(t, err)
 			require.Equal(t, tt.expect, out)
 		})
